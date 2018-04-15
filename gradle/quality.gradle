@@ -1,0 +1,102 @@
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+apply plugin: 'jacoco'
+
+// Detect if if the project that included this file is using android or not
+def isAndroidProject() {
+	for (p in plugins) {
+		def cName = p.getClass().getSimpleName()
+		if (cName.equals("AppPlugin") || cName.equals("LibraryPlugin")) {
+			return true
+		}
+	}
+	return false
+}
+
+checkstyle {
+    toolVersion = project.ext.checkstyleToolVersion
+}
+
+pmd {
+    toolVersion = project.ext.pmdToolVersion
+}
+
+// In Android projects the check plugins don't make any check tasks so here we need to make them
+// Source property sets the directory to be analyzed relative to the project's base folder
+if (isAndroidProject()) {
+	check.dependsOn 'checkstyle', 'pmd'
+
+	task checkstyle(type: Checkstyle, description: 'Run checkstyle analysis for all classes') {
+		source 'src'
+		classpath = files()
+	}
+
+	task pmd(type: Pmd,description: 'Run pmd analysis for all classes') {
+		source = 'src'
+	}
+} else {
+	tasks.withType(Checkstyle) {
+		source 'src'
+		classpath = files()
+	}
+
+	tasks.withType(Pmd) {
+		source = 'src'
+	}
+}
+
+// This is the actual configuration used in Android and Java projects
+tasks.withType(Checkstyle) {
+    ignoreFailures = true
+    showViolations = false
+    configFile = new File(rootDir, "etc/checkstyle-gradle.xml")
+
+	reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+
+    include '**/*.java'
+    exclude '**/generated/**'
+}
+
+tasks.withType(Pmd) {
+    ignoreFailures = true
+    ruleSets = []
+    ruleSetFiles = files(new File(rootDir, "etc/pmd-ruleset.xml"))
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+
+    include '**/*.java'
+    exclude '**/generated/**'
+}
+
+// This step is only needed for pure Java projects because they register tasks by sourceset but not a generic task that runs all of them
+if (!isAndroidProject()) {
+	afterEvaluate {
+		task checkstyle(type: Checkstyle, description: 'Run checkstyle analysis for all classes') {
+			dependsOn = []
+			for (set in sourceSets) {
+				dependsOn += tasks.getByName("checkstyle" + capitalize(set.name))
+			}
+		}
+
+		task pmd(type: Pmd, description: 'Run pmd analysis for all classes') {
+			dependsOn = []
+			for (set in sourceSets) {
+				dependsOn += tasks.getByName("pmd" + capitalize(set.name))
+			}
+		}
+	}
+}
+
+jacoco {
+    toolVersion = project.ext.jacocoToolVersion
+}
+
+String capitalize(String line) {
+   return (String) (Character.toUpperCase(line.charAt(0))) + line.substring(1);
+}

@@ -1,0 +1,5 @@
+[submodule "lib/external/g3m"]
+	path = lib/external/g3m
+	url = https://github.com/glob3mobile/g3m.git
+	branch = aeroglass
+

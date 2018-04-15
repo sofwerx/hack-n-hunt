@@ -1,0 +1,13 @@
+
+//external libraries
+include 'lib:external:g3m:Commons:G3MSharedSDK'
+include 'lib:external:g3m:JavaDesktop:G3MJavaDesktopSDK'
+include 'lib:external:g3m:Android:G3MAndroidSDK'
+include 'lib:external:poly2tri'
+include 'lib:external:geopackage-sdk'
+
+include 'app:android'
+
+include 'lib:commonJava'
+include 'lib:g3mDroid'
+

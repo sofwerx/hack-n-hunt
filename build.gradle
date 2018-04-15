@@ -1,0 +1,96 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.3'
+    }
+}
+
+subprojects {
+    repositories {
+        mavenCentral()
+    }
+
+    tasks.withType(Javadoc).all { enabled = false }
+}
+
+project(':lib:external:g3m:Commons:G3MSharedSDK') {
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.6
+    version = '1.0'
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src'
+            }
+        }
+    }
+
+    tasks.withType(Javadoc) {
+        exclude '**'
+    }
+}
+
+project(':lib:external:g3m:JavaDesktop:G3MJavaDesktopSDK') {
+    apply plugin: 'java'
+
+    dependencies {
+        compile files('lib/commons-fileupload-1.3.jar')
+        compile files('lib/commons-io-2.4.jar')
+        compile files('lib/gson-2.2.2.jar')
+        compile project(':lib:external:g3m:Commons:G3MSharedSDK')
+    }
+
+    sourceCompatibility = 1.6
+    version = '1.0'
+
+    sourceSets {
+        main {
+            java {
+                srcDir 'src'
+            }
+        }
+    }
+
+    tasks.withType(Javadoc) {
+        exclude '**'
+    }
+}
+
+project(':lib:external:g3m:Android:G3MAndroidSDK') {
+    apply plugin: 'com.android.library'
+
+    dependencies {
+        compile files('libs/java_websocket.jar')
+        compile project(':lib:external:g3m:Commons:G3MSharedSDK')
+    }
+
+    android {
+        compileSdkVersion Integer.valueOf(project.ext.androidCompileSDKVersion)
+        buildToolsVersion project.ext.androidBuildToolsVersion
+
+        sourceSets {
+            main {
+                manifest.srcFile 'AndroidManifest.xml'
+                java.srcDirs = ['src']
+                resources.srcDirs = ['src']
+                aidl.srcDirs = ['src']
+                renderscript.srcDirs = ['src']
+                res.srcDirs = ['res']
+                assets.srcDirs = ['assets']
+            }
+        }
+
+        lintOptions {
+            abortOnError false
+            lintConfig file(new File(rootDir, "etc/lint.xml"))
+        }
+        compileOptions.encoding = 'UTF-8'
+    }
+}

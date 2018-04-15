@@ -1,0 +1,36 @@
+import java.lang.Runtime
+
+apply plugin: 'java'
+apply plugin: 'com.google.protobuf'
+apply from: "$rootDir/gradle/quality.gradle"
+
+compileJava.options.encoding = 'UTF-8'
+
+sourceCompatibility = 1.6
+version = '1.0'
+
+dependencies {
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
+test {
+    maxHeapSize = "4048m"
+    jvmArgs '-XX:MaxPermSize=1024m'
+
+	// this will set the number of parallel test JVMs to the number of logical cores on the system
+	maxParallelForks = Runtime.getRuntime().availableProcessors()
+
+	beforeTest { descriptor ->
+        logger.lifecycle("Running " + descriptor)
+    }
+}
+
+tasks.withType(Test) {
+    reports.html.destination = file("${reporting.baseDir}/${name}")
+}
+
