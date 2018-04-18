@@ -1,5 +1,5 @@
 ## Build setup ##
-* git clone https://bitbucket.org/zpillio/aeroglasshnh/src/
+* git clone https://github.com/AeroGlass/hack-n-hunt
 * cd hack-n-hunt
 * git submodule init
 * git submodule update
