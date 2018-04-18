@@ -17,7 +17,7 @@
 * run Menu Bar > Build > Make Project
 
 ## Geopackage file ##
-* geopackage file is: /sdcard/aeroglass/geopackages/hacknhunt-with-RTE.gpkg
+* geopackage file is: /sdcard/aeroglass/geopackage/hacknhunt-with-RTE.gpkg
 * if geopackage file not exists example is created
 
 ## Basics ##
