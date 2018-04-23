@@ -58,4 +58,6 @@ RUN ./gradlew build
 
 VOLUME /outputs/
 
-CMD cp -f $(find . -name '*.apk' -print) /outputs/
+CMD cp -f ./app/android/build/outputs/apk/android-debug.apk /outputs/android-debug.apk \
+ && cp -f ./app/android/build/outputs/apk/android-release-unsigned.apk /outputs/android-release-unsigned.apk
+
