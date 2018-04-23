@@ -51,8 +51,6 @@ WORKDIR /hack-n-hunt
 
 COPY . /hack-n-hunt
 
-RUN git submodule update --init --recursive
-
 RUN ./gradlew build
 
 VOLUME /outputs/

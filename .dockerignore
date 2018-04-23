@@ -10,4 +10,5 @@ local.properties
 */.DS_Store
 
 app/android/build/
-lib/external/g3m/
+lib/external/g3m/.git
+.git
