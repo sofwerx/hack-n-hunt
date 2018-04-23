@@ -16,15 +16,17 @@ RUN wget -q https://dl.google.com/android/repository/tools_${ANDROID_SDK_VERSION
 
 ENV PATH=${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:$PATH
 
-ENV ANDROID_NDK_VERSION r14b
-
-ENV ANDROID_NDK_HOME=/android/android-ndk-${ANDROID_NDK_VERSION}
-
-RUN wget -q https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip \
- && unzip -q android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip \
- && rm android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip
-
-ENV PATH=${ANDROID_NDK_HOME}:$PATH
+## Use the Android NDK
+#
+#ENV ANDROID_NDK_VERSION r14b
+#
+#ENV ANDROID_NDK_HOME=/android/android-ndk-${ANDROID_NDK_VERSION}
+#
+#RUN wget -q https://dl.google.com/android/repository/android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip \
+# && unzip -q android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip \
+# && rm android-ndk-${ANDROID_NDK_VERSION}-linux-x86_64.zip
+#
+#ENV PATH=${ANDROID_NDK_HOME}:$PATH
 
 RUN mkdir -p ${ANDROID_HOME}/licenses \
  && touch ${ANDROID_HOME}/licenses/android-sdk-license \

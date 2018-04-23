@@ -3,15 +3,14 @@ services:
 - docker
 language: bash
 script:
-- git submodule update --init --recursive
 - docker pull ${TRAVIS_REPO_SLUG}:latest || true
-- docker build -t ${TRAVIS_REPO_SLUG}:${TRAVIS_TAG} .
+- docker build -t ${TRAVIS_REPO_SLUG}:${TRAVIS_BRANCH} .
 #- docker build --cache-from ${TRAVIS_REPO_SLUG}:latest -t ${TRAVIS_REPO_SLUG}:${TRAVIS_TAG} .
-- docker run --rm -v ${PWD}/outputs:/outputs ${TRAVIS_REPO_SLUG}:${TRAVIS_TAG-latest}
+- docker run --rm -v ${PWD}/outputs:/outputs ${TRAVIS_REPO_SLUG}:${TRAVIS_BRANCH}
 after_success:
 - cp ./app/android/build/outputs/apk/android-debug.apk hack-n-hunt-debug_${TRAVIS_TAG}.apk
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-- docker push ${TRAVIS_REPO_SLUG}:${TRAVIS_TAG:-latest} || true
+- docker push ${TRAVIS_REPO_SLUG}:${TRAVIS_BRANCH} || true
 branches:
   only:
   - master
@@ -21,7 +20,7 @@ deploy:
   skip_cleanup: true
   api_key: "${GITHUB_TOKEN}"
   file:
-  - hack-n-hunt-debug_${TRAVIS_TAG}.apk
+  - hack-n-hunt-debug_${TRAVIS_BRANCH}.apk
   on:
     tags: true
     repo: "${TRAVIS_REPO_SLUG}"
