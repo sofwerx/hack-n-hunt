@@ -56,8 +56,10 @@ COPY . /hack-n-hunt
 
 RUN ./gradlew build
 
+RUN apt-get install -y rsync
+
 VOLUME /outputs/
 
-CMD cp -f ./app/android/build/outputs/apk/android-debug.apk /outputs/android-debug.apk \
- && cp -f ./app/android/build/outputs/apk/android-release-unsigned.apk /outputs/android-release-unsigned.apk
+CMD rsync -avq ./app/android/build/outputs/apk/android-debug.apk /outputs/android-debug.apk \
+ && rsync -avq ./app/android/build/outputs/apk/android-release-unsigned.apk /outputs/android-release-unsigned.apk
 
