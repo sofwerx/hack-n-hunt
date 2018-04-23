@@ -41,6 +41,7 @@ RUN yes | sdkmanager "platforms;android-21"
 RUN mkdir -p ${ANDROID_HOME}/.android \
  && touch ~/.android/repositories.cfg ${ANDROID_HOME}/.android/repositories.cfg
 RUN yes | sdkmanager "build-tools;26.0.2"
+RUN yes | sdkmanager "extras;android;m2repository"
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -y locales
 RUN sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
