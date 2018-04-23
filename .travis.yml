@@ -1,0 +1,24 @@
+sudo: required
+services:
+- docker
+language: bash
+script:
+- make
+after_success:
+- cp ./app/android/build/outputs/apk/android-debug.apk hack-n-hunt-debug_${TRAVIS_TAG}.apk
+- docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+- docker push ${TRAVIS_REPO_SLUG}:${TRAVIS_TAG:-latest} || true
+- find . -name '*.apk' -print
+branches:
+  only:
+  - master
+  - "/^v?\\d.*$/"
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key: "${GITHUB_TOKEN}"
+  file:
+  - hack-n-hunt-debug_${TRAVIS_TAG}.apk
+  on:
+    tags: true
+    repo: "${TRAVIS_REPO_SLUG}"
