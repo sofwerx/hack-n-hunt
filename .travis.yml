@@ -3,13 +3,13 @@ services:
 - docker
 language: bash
 script:
-- docker pull sofwerx/${TRAVIS_REPO_SLUG}:latest || true
-- docker build --cache-from ${TRAVIS_REPO_SLUG}:latest -t sofwerx/${TRAVIS_REPO_SLUG}:${TRAVIS_TAG} .
-- docker run --rm -v ${PWD}/outputs:/outputs sofwerx/${TRAVIS_REPO_SLUG}:${TRAVIS_TAG:-latest}
+- docker pull ${TRAVIS_REPO_SLUG}:latest || true
+- docker build --cache-from ${TRAVIS_REPO_SLUG}:latest -t ${TRAVIS_REPO_SLUG}:${TRAVIS_TAG} .
+- docker run --rm -v ${PWD}/outputs:/outputs ${TRAVIS_REPO_SLUG}:${TRAVIS_TAG:-latest}
 after_success:
 - cp ./app/android/build/outputs/apk/android-debug.apk hack-n-hunt-debug_${TRAVIS_TAG:-latest}.apk
 - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-- docker push sofwerx/${TRAVIS_REPO_SLUG}:${TRAVIS_TAG:-latest} || true
+- docker push ${TRAVIS_REPO_SLUG}:${TRAVIS_TAG:-latest} || true
 branches:
   only:
   - master
