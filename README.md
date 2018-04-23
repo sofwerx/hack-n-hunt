@@ -1,5 +1,8 @@
 ## Build setup ##
-* git clone https://github.com/AeroGlass/hack-n-hunt
+
+If you wish to build locally using gradle and Android Studio, follow these instructions:
+
+* git clone https://github.com/sofwerx/hack-n-hunt
 * cd hack-n-hunt
 * git submodule init
 * git submodule update
@@ -15,6 +18,24 @@
     Android 4.4.2 (API 19) - SDK Platform, Sources for Android SDK
 * select Menu Bar > Tools > Android > Sync Project with Gradle Files
 * run Menu Bar > Build > Make Project
+
+## Dockerized build ##
+
+If you wish to build under docker, run:
+
+    make $(cat .env)
+
+This will generate an APK file in the `outputs/` folder.
+
+To install this APK on your phone:
+
+    adb install outputs/android-debug.apk
+
+Or otherwise download this to your phone and open it. 
+
+To uninstall it:
+
+    adb uninstall aero.glass.android
 
 ## Geopackage file ##
 * geopackage file is: /sdcard/aeroglass/geopackage/hacknhunt-with-RTE.gpkg
