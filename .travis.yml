@@ -19,8 +19,8 @@ deploy:
   skip_cleanup: true
   api_key:
     secure: "qbgmGM2dbuH0VxMbptTo+aRq6u1aj9gtYSuuu71h+Dfp0JWNsqGsFsF0EoVXLhj7dwIotRMon3Gy8XLdvtm/D1a+iCW++YCHo+0/1SBxHL9mwu14hL2cOAyZ2dfKCrSzCOkB23KVYKpbpmvJRka5hLYnnXcQrqLSr2EGF+euIH8O4XBF2gY6lDeCoY28Z9v421haHRvf0G9k2DY66tP1f3ppjPH2eBiOuiB2QC77cWcaUpv5agpqDSvGBA5+q6HTtxomCduPy40hj5eSUtNQTdV7y6iqHn+0DU6EMVFa3KMCkrylQ/D1KGqqt3dx0aeGslTn/dh3gTGdsY380Oy70RJ6PXqu4YiFmqQMEWJs6w44xpA11EruzkOA6WJPfqAtO0QYs04Z3BDfQxMuHrnf1Xpw7NZv+D1h3gKt5WzhXPERboM0UKuDJn71l2kL17wspQEp9dW7ZiVb6S/rI8ZBXlV3xgxFN9TZ+BT7WiFK2AJ0kEvznBHnlUT8orrulMRd2An7SrPCYs3/RrZs7YqfUdrFcmgJKvTWL9/mphl4+NSMzAevCF1tKqZraRVUcTMUCLaslywdE+WTujhwBTIl+ilTFikjeOsAXFCWzRYwMRVcJExlz0TNAFHPuqX2tgRbLrd25otmUG7bGWSJL9IWi1qvthXc6X2V6vefcE31ny0="
-  file_glob: true
-  file: *.apk
+  file:
+  - hack-n-hunt-debug_${TRAVIS_TAG}.apk
   on:
     tags: true
     repo: "${TRAVIS_REPO_SLUG}"
