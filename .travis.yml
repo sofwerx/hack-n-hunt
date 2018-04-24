@@ -5,9 +5,11 @@ language: bash
 script:
 - docker pull ${TRAVIS_REPO_SLUG}:latest || true
 - docker build --cache-from ${TRAVIS_REPO_SLUG}:latest -t ${TRAVIS_REPO_SLUG}:${TRAVIS_TAG:-latest} .
-- docker run --rm -v ${PWD}/outputs:/outputs ${TRAVIS_REPO_SLUG}:${TRAVIS_TAG:-latest}
 after_success:
-- cp ./app/android/build/outputs/apk/android-debug.apk hack-n-hunt-debug_${TRAVIS_TAG:-latest}.apk
+- mkdir -p outputs
+- docker run --rm -v ${PWD}/outputs:/outputs ${TRAVIS_REPO_SLUG}:${TRAVIS_TAG:-latest}
+- ls -la ${PWD}/outputs/
+- cp ${PWD}/outputs/android-debug.apk hack-n-hunt-debug_${TRAVIS_TAG:-latest}.apk
 - echo "$DOCKER_PASSWORD" | docker login -u="$DOCKER_USERNAME" --password-stdin
 - docker push ${TRAVIS_REPO_SLUG}:${TRAVIS_TAG:-latest}
 branches:
